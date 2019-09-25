@@ -625,3 +625,8 @@ done
 
 wait
 ```
+
+```bash
+apt install -y iproute2 inetutils-ping
+apt-get install inetutils-ping
+```
