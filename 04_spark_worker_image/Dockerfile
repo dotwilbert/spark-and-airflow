@@ -2,6 +2,8 @@ FROM spark_base:1.0.0
 
 ENV SPARK_NO_DAEMONIZE=yes
 
+EXPOSE 8081/tcp
+
 WORKDIR /opt/spark-2.4.4-bin-hadoop2.7
 
 ENTRYPOINT [ "./sbin/start-slave.sh" ]
