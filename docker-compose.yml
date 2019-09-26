@@ -1,0 +1,54 @@
+version: "3.2"
+services:
+    database:
+        image: postgres:11.5
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        environment:
+            - PGDATA=/var/lib/postgresql/data
+            - POSTGRES_PASSWORD=Bonsai-Dried-Reenact-Regulate-Prior-Tribesman-Magnifier
+            - POSTGRES_USER=ptm
+            - POSTGRES_DB=jail_population_warehouse
+        ports:
+            - "5432:5432/tcp"
+        networks:
+            - sparknet
+    
+    sparkmaster:
+        image: spark_master:1.0.1
+        ports:
+            - "8080:8080/tcp"
+            - "7077:7077/tcp"
+        depends_on:
+            - database
+        networks:
+            - sparknet
+
+    sparkworker1:
+        image: spark_worker:1.0.1
+        volumes:
+            - fakearchive:/bigdata
+        ports:
+            - "8081:8081/tcp"
+        depends_on:
+            - sparkmaster
+        networks:
+            - sparknet
+    
+    sparkworker2:
+        image: spark_worker:1.0.1
+        volumes:
+            - fakearchive:/bigdata
+        ports:
+            - "8082:8081/tcp"
+        depends_on:
+            - sparkmaster
+        networks:
+            - sparknet
+
+networks:
+    sparknet:
+
+volumes:
+    pgdata:
+    fakearchive:
