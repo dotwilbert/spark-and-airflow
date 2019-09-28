@@ -626,7 +626,213 @@ done
 wait
 ```
 
+# Install networking tools in dev
+
 ```bash
 apt install -y iproute2 inetutils-ping
 apt-get install inetutils-ping
 ```
+
+```bash
+apt-get install gosu
+apt-get install python3-pip
+update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 2000
+
+pip install apache-airflow
+pip install 'apache-airflow[postgres]'
+apt-get remove python3-pip
+apt-get clean
+
+# Dev
+apt-get install python3-pipdeptree
+
+apt-get install -y gosu
+groupadd -r airflow --gid=1717
+useradd -r -g airflow --uid=1717 --home-dir=/opt/airflow --shell=/bin/bash airflow
+apt-get install -y python3-pip
+update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 2000
+pip install psycopg2-binary 'apache-airflow[postgres]'
+mkdir /opt/airflow
+chown -R airflow:airflow /opt/airflow
+
+
+which pip3
+pip install airflow
+pip install apache-airflow
+apt-get remove python3-pip
+airflow 
+apt-get autoremove
+apt-get clean
+apt-get install python3-pip
+export AIRFLOW_HOME=/opt/airflow
+apt-get install gosu
+gosu nobody true
+gosu --help
+gosu nobody:root bash -c 'whoami && id'
+godu 1000:1 id
+gosu 1000:1 id
+groupadd -r airflow --gid=1717
+useradd -r -g airflow --uid=1717 --home-dir=/opt/airflow --shell=/bin/bash airflow
+gosu airflow
+history
+su - airflow
+ls /opt
+mkdir /opt/airflow
+chown -R airflow:airflow /opt/airflow
+su - airflow
+history
+
+    1  echo $editor
+    2  which editor
+    3  which edit
+    4  edit --help
+    5  apt-get install vim
+    6  vim doit.sh
+    7  chmod 755 doit.sh 
+    8  ./doit.sh 
+    9  cat doit.sh 
+   10  su - airflow
+   11  apt install -y iproute2 inetutils-ping
+   12  su - airflow
+   13  history
+   14  pip install psycopg2-binary
+   15  su - airflow
+   16  pip remove psycopg2
+   17  pip uninstall psycopg2
+   18  pip install psycopg2-binary
+   19  pip help
+   20  su - airflow
+   21  history
+
+```
+
+```SQL
+CREATE DATABASE airflow
+  LC_COLLATE 'en_US.utf8'
+  LC_CTYPE 'en_US.utf8'
+;
+
+CREATE USER airflow WITH
+  ENCRYPTED PASSWORD 'airflow'
+;
+
+GRANT ALL PRIVILEGES
+  ON airflow
+  TO airflow
+;
+
+
+DROP TABLE alembic_version;
+DROP TABLE chart;
+DROP TABLE connection;
+DROP TABLE dag;
+DROP TABLE dag_pickle;
+DROP TABLE dag_run;
+DROP TABLE import_error;
+DROP TABLE job;
+DROP TABLE known_event;
+DROP TABLE known_event_type;
+DROP TABLE kube_resource_version;
+DROP TABLE kube_worker_uuid;
+DROP TABLE log;
+DROP TABLE sla_miss;
+DROP TABLE slot_pool;
+DROP TABLE task_fail;
+DROP TABLE task_instance;
+DROP TABLE task_reschedule;
+DROP TABLE users;
+DROP TABLE variable;
+DROP TABLE xcom;
+```
+
+
+chmod 600 /etc/sudoers
+   40  sed -e '/^(root\s*ALL=(ALL:ALL).*\)/\1\nairflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+   41  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/\1\nairflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+   42  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/A airflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+   43  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/a airflow ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
+   44  sed -i -e '/^\(root\s*ALL=(ALL:ALL).*\)/a airflow ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
+   45  chmod 400 /etc/sudoers
+   46  ls -l /etc/sudoers
+   47  chmod 440 /etc/sudoers
+   48  ls -l /etc/sudoers
+   49  history
+
+```bash
+root@8cd202b56519:/opt/airflow# cat ~/.bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+# Note: PS1 and umask are already set in /etc/profile. You should not
+# need this unless you want different defaults for root.
+# PS1='${debian_chroot:+($debian_chroot)}\h:\w\$ '
+# umask 022
+
+# You may uncomment the following lines if you want `ls' to be colorized:
+# export LS_OPTIONS='--color=auto'
+# eval "`dircolors`"
+# alias ls='ls $LS_OPTIONS'
+# alias ll='ls $LS_OPTIONS -l'
+# alias l='ls $LS_OPTIONS -lA'
+#
+# Some more alias to avoid making mistakes:
+# alias rm='rm -i'
+# alias cp='cp -i'
+# alias mv='mv -i'
+
+root@8cd202b56519:/opt/airflow# cat ~/.profile
+# ~/.profile: executed by Bourne-compatible login shells.
+
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+fi
+
+mesg n || true
+```
+
+export AIRFLOW_HOME=/opt/airflow
+export POSTGRES_HOST=database
+export POSTGRES_DB=airflow
+export POSTGRES_USER=airflow
+export POSTGRES_PASSWORD=airflow
+export AIRFLOW__CORE__FERNET_KEY=uQ5Fz122Qu2yQH5PfdMrAjH0WIkgtx1df435T7GTGm4=
+
+
+
+1. install airflow as root
+2. Create entry point to check the database with psql scripts
+3. if not loaded pgdump the airflow.pgsql to the airflow/airflow:ariflow database
+4 cd to /opt/airflow
+2. gosu to daemonize the web server
+3. start the scheduler
+
+
+cat 05_airflow_spark_image/Dockerfile | docker build --network=sparkcontainer_sparknet -t $(< 05_airflow_spark_image/NAME):$(< 05_airflow_spark_image/VERSION) -f- 05_airflow_spark_image/
+
+                List of relations
+ Schema |         Name          | Type  |  Owner  
+--------+-----------------------+-------+---------
+ public | alembic_version       | table | airflow
+ public | chart                 | table | airflow
+ public | connection            | table | airflow
+ public | dag                   | table | airflow
+ public | dag_pickle            | table | airflow
+ public | dag_run               | table | airflow
+ public | import_error          | table | airflow
+ public | job                   | table | airflow
+ public | known_event           | table | airflow
+ public | known_event_type      | table | airflow
+ public | kube_resource_version | table | airflow
+ public | kube_worker_uuid      | table | airflow
+ public | log                   | table | airflow
+ public | sla_miss              | table | airflow
+ public | slot_pool             | table | airflow
+ public | task_fail             | table | airflow
+ public | task_instance         | table | airflow
+ public | task_reschedule       | table | airflow
+ public | users                 | table | airflow
+ public | variable              | table | airflow
+ public | xcom                  | table | airflow
+(21 rows)
+
