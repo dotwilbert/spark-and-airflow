@@ -46,6 +46,29 @@ services:
         networks:
             - sparknet
 
+    airflowspark:
+        image: airflow_spark:1.0.0
+        volumes:
+            - fakearchive:/bigdata
+        environment:
+            - AIRFLOW_HOME=/opt/airflow
+            - POSTGRES_HOST=database
+            - POSTGRES_PORT=5432
+            - POSTGRES_DB=airflow
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - AIRFLOW__CORE__FERNET_KEY=uQ5Fz122Qu2yQH5PfdMrAjH0WIkgtx1df435T7GTGm4=
+            - AIRFLOW__CORE__LOAD_EXAMPLES=False
+        ports:
+            - "8079:8080/tcp"
+        depends_on:
+            - database
+            - sparkmaster
+            - sparkworker1
+            - sparkworker2
+        networks:
+            - sparknet
+
 networks:
     sparknet:
 
