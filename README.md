@@ -20,6 +20,6 @@ debian_base ->
     spark_master
     spark_worker
     airflow_spark_client
-  spark_conda_base
-  airflow_spark_conda
+  spark_conda_base ->
+    airflow_spark_conda
 ```
