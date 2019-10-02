@@ -21,5 +21,6 @@ The containers are layered.
     * spark_worker
     * ~~airflow_spark_client~~
   * spark_conda_base ->
-    * airflow_spark_conda
+    * airflow_spark_conda ->
+      * sc-jail-project-pipeline
 ```
