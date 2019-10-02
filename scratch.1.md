@@ -703,7 +703,6 @@ history
    19  pip help
    20  su - airflow
    21  history
-
 ```
 
 ```SQL
@@ -745,18 +744,15 @@ DROP TABLE variable;
 DROP TABLE xcom;
 ```
 
-
+```bash
 chmod 600 /etc/sudoers
-   40  sed -e '/^(root\s*ALL=(ALL:ALL).*\)/\1\nairflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-   41  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/\1\nairflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-   42  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/A airflow ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-   43  sed -e '/^\(root\s*ALL=(ALL:ALL).*\)/a airflow ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
-   44  sed -i -e '/^\(root\s*ALL=(ALL:ALL).*\)/a airflow ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
-   45  chmod 400 /etc/sudoers
-   46  ls -l /etc/sudoers
-   47  chmod 440 /etc/sudoers
-   48  ls -l /etc/sudoers
-   49  history
+sed -i -e '/^\(root\s*ALL=(ALL:ALL).*\)/a airflow ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
+chmod 400 /etc/sudoers
+ls -l /etc/sudoers
+chmod 440 /etc/sudoers
+ls -l /etc/sudoers
+history
+```
 
 ```bash
 root@8cd202b56519:/opt/airflow# cat ~/.bashrc
@@ -807,9 +803,11 @@ export AIRFLOW__CORE__FERNET_KEY=uQ5Fz122Qu2yQH5PfdMrAjH0WIkgtx1df435T7GTGm4=
 2. gosu to daemonize the web server
 3. start the scheduler
 
-
+```bash
 cat 05_airflow_spark_image/Dockerfile | docker build --network=sparkcontainer_sparknet -t $(< 05_airflow_spark_image/NAME):$(< 05_airflow_spark_image/VERSION) -f- 05_airflow_spark_image/
+```
 
+```plain
                 List of relations
  Schema |         Name          | Type  |  Owner  
 --------+-----------------------+-------+---------
@@ -835,4 +833,208 @@ cat 05_airflow_spark_image/Dockerfile | docker build --network=sparkcontainer_sp
  public | variable              | table | airflow
  public | xcom                  | table | airflow
 (21 rows)
+```
 
+```bash
+root@0e121310c0d6:~# conda init --dry-run -vvv
+```
+
+```plain
+DEBUG conda.gateways.logging:set_verbosity(231): verbosity set to 3
+DEBUG conda.gateways.subprocess:subprocess_call(69): executing>> /opt/miniconda/bin/python --version
+TRACE conda.gateways.subprocess:subprocess_call(87): $ /opt/miniconda/bin/python --version
+==> cwd: /opt/miniconda <==
+==> exit code: 0 <==
+==> stdout <==
+Python 3.7.3
+
+==> stderr <==
+
+
+
+
+/root/.bashrc
+--- 
+
++++ 
+
+@@ -16,3 +16,19 @@
+
+ # alias rm='rm -i'
+ # alias cp='cp -i'
+ # alias mv='mv -i'
++
++# >>> conda initialize >>>
++# !! Contents within this block are managed by 'conda init' !!
++__conda_setup="$('/opt/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
++if [ $? -eq 0 ]; then
++    eval "$__conda_setup"
++else
++    if [ -f "/opt/miniconda/etc/profile.d/conda.sh" ]; then
++        . "/opt/miniconda/etc/profile.d/conda.sh"
++    else
++        export PATH="/opt/miniconda/bin:$PATH"
++    fi
++fi
++unset __conda_setup
++# <<< conda initialize <<<
++
+no change     /opt/miniconda/condabin/conda
+no change     /opt/miniconda/bin/conda
+no change     /opt/miniconda/bin/conda-env
+no change     /opt/miniconda/bin/activate
+no change     /opt/miniconda/bin/deactivate
+no change     /opt/miniconda/etc/profile.d/conda.sh
+no change     /opt/miniconda/etc/fish/conf.d/conda.fish
+no change     /opt/miniconda/shell/condabin/Conda.psm1
+no change     /opt/miniconda/shell/condabin/conda-hook.ps1
+no change     /opt/miniconda/lib/python3.7/site-packages/xontrib/conda.xsh
+no change     /opt/miniconda/etc/profile.d/conda.csh
+modified      /root/.bashrc
+
+==> For changes to take effect, close and re-open your current shell. <==
+```
+
+```bash
+root@0e121310c0d6:~# '/opt/miniconda/bin/conda' 'shell.bash' 'hook'
+export CONDA_EXE='/opt/miniconda/bin/conda'
+export _CE_M=''
+export _CE_CONDA=''
+export CONDA_PYTHON_EXE='/opt/miniconda/bin/python'
+
+# Copyright (C) 2012 Anaconda, Inc
+# SPDX-License-Identifier: BSD-3-Clause
+
+__add_sys_prefix_to_path() {
+    # In dev-mode CONDA_EXE is python.exe and on Windows
+    # it is in a different relative location to condabin.
+    if [ -n "${_CE_CONDA}" ] && [ -n "${WINDIR+x}" ]; then
+        SYSP=$(\dirname "${CONDA_EXE}")
+    else
+        SYSP=$(\dirname "${CONDA_EXE}")
+        SYSP=$(\dirname "${SYSP}")
+    fi
+
+    if [ -n "${WINDIR+x}" ]; then
+        PATH="${SYSP}/bin:${PATH}"
+        PATH="${SYSP}/Scripts:${PATH}"
+        PATH="${SYSP}/Library/bin:${PATH}"
+        PATH="${SYSP}/Library/usr/bin:${PATH}"
+        PATH="${SYSP}/Library/mingw-w64/bin:${PATH}"
+        PATH="${SYSP}:${PATH}"
+    else
+        PATH="${SYSP}/bin:${PATH}"
+    fi
+    \export PATH
+}
+
+__conda_hashr() {
+    if [ -n "${ZSH_VERSION:+x}" ]; then
+        \rehash
+    elif [ -n "${POSH_VERSION:+x}" ]; then
+        :  # pass
+    else
+        \hash -r
+    fi
+}
+
+__conda_activate() {
+    if [ -n "${CONDA_PS1_BACKUP:+x}" ]; then
+        # Handle transition from shell activated with conda <= 4.3 to a subsequent activation
+        # after conda updated to >= 4.4. See issue #6173.
+        PS1="$CONDA_PS1_BACKUP"
+        \unset CONDA_PS1_BACKUP
+    fi
+
+    \local cmd="$1"
+    shift
+    \local ask_conda
+    OLDPATH="${PATH}"
+    __add_sys_prefix_to_path
+    ask_conda="$(PS1="$PS1" "$CONDA_EXE" $_CE_M $_CE_CONDA shell.posix "$cmd" "$@")" || \return $?
+    PATH="${OLDPATH}"
+    \eval "$ask_conda"
+    __conda_hashr
+}
+
+__conda_reactivate() {
+    \local ask_conda
+    OLDPATH="${PATH}"
+    __add_sys_prefix_to_path
+    ask_conda="$(PS1="$PS1" "$CONDA_EXE" $_CE_M $_CE_CONDA shell.posix reactivate)" || \return $?
+    PATH="${OLDPATH}"
+    \eval "$ask_conda"
+    __conda_hashr
+}
+
+conda() {
+    if [ "$#" -lt 1 ]; then
+        "$CONDA_EXE" $_CE_M $_CE_CONDA
+    else
+        \local cmd="$1"
+        shift
+        case "$cmd" in
+            activate|deactivate)
+                __conda_activate "$cmd" "$@"
+                ;;
+            install|update|upgrade|remove|uninstall)
+                OLDPATH="${PATH}"
+                __add_sys_prefix_to_path
+                "$CONDA_EXE" $_CE_M $_CE_CONDA "$cmd" "$@"
+                \local t1=$?
+                PATH="${OLDPATH}"
+                if [ $t1 = 0 ]; then
+                    __conda_reactivate
+                else
+                    return $t1
+                fi
+                ;;
+            *)
+                OLDPATH="${PATH}"
+                __add_sys_prefix_to_path
+                "$CONDA_EXE" $_CE_M $_CE_CONDA "$cmd" "$@"
+                \local t1=$?
+                PATH="${OLDPATH}"
+                return $t1
+                ;;
+        esac
+    fi
+}
+
+if [ -z "${CONDA_SHLVL+x}" ]; then
+    \export CONDA_SHLVL=0
+    # In dev-mode CONDA_EXE is python.exe and on Windows
+    # it is in a different relative location to condabin.
+    if [ -n "${_CE_CONDA+x}" ] && [ -n "${WINDIR+x}" ]; then
+        PATH="$(\dirname "$CONDA_EXE")/condabin${PATH:+":${PATH}"}"
+    else
+        PATH="$(\dirname "$(\dirname "$CONDA_EXE")")/condabin${PATH:+":${PATH}"}"
+    fi
+    \export PATH
+
+    # We're not allowing PS1 to be unbound. It must at least be set.
+    # However, we're not exporting it, which can cause problems when starting a second shell
+    # via a first shell (i.e. starting zsh from bash).
+    if [ -z "${PS1+x}" ]; then
+        PS1=
+    fi
+fi
+
+
+conda activate base
+conda install conda==4.7.12
+conda clean --all
+```
+
+# new anaconda image
+```docker
+ENV CONDA_PROJECT=sc-jail-project
+```
+
+```bash
+conda create --yes --name ${CONDA_PROJECT} python=3.7.3 \
+&& conda activate ${CONDA_PROJECT} \
+&& conda config --env --append channels conda-forge \
+&& conda config --env --set channel_priority flexible \
+&& conda install --yes --file=requirements.txt
+```
