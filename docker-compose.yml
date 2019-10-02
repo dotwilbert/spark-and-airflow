@@ -15,7 +15,9 @@ services:
             - sparknet
     
     sparkmaster:
-        image: spark_master:1.0.1
+        image: spark_master:2.0.0
+        volumes:
+            - fakearchive:/bigdata
         ports:
             - "8080:8080/tcp"
             - "7077:7077/tcp"
@@ -25,7 +27,7 @@ services:
             - sparknet
 
     sparkworker1:
-        image: spark_worker:1.0.1
+        image: spark_worker:2.0.0
         volumes:
             - fakearchive:/bigdata
         ports:
@@ -36,7 +38,7 @@ services:
             - sparknet
     
     sparkworker2:
-        image: spark_worker:1.0.1
+        image: spark_worker:2.0.0
         volumes:
             - fakearchive:/bigdata
         ports:
@@ -47,11 +49,11 @@ services:
             - sparknet
 
     airflowspark:
-        image: airflow_spark:1.0.0
+        image: airflow_spark_conda:1.0.0
         volumes:
             - fakearchive:/bigdata
         environment:
-            - AIRFLOW_HOME=/opt/airflow
+            - AIRFLOW_HOME=/home/airflow
             - POSTGRES_HOST=database
             - POSTGRES_PORT=5432
             - POSTGRES_DB=airflow
