@@ -14,8 +14,12 @@ is needed.  Solution is to use OpenJDK 8 from oldstable. There is a OpenJDK 8 in
 stable.
 
 The containers are layered. 
+```plain
 debian_base -> 
   spark_base ->
     spark_master
     spark_worker
-    airflow_spark_client 
+    airflow_spark_client
+  spark_conda_base
+  airflow_spark_conda
+```
