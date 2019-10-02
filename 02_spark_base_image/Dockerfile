@@ -1,4 +1,4 @@
-FROM debian_base:1.0.0
+FROM debian_base:10.1-slim
 
 # Tasks:
 #   - modify sources add oldstable (stretch)
@@ -52,9 +52,20 @@ RUN set -eux \
         openssh-server \
         wget \
         gawk \
+        libpq-dev \
         python3 \
+        python3-pip \
+        python3-levenshtein \
     && apt-get clean \
-    && update-alternatives --install /usr/bin/python python /usr/bin/python3.7 2000
+    && update-alternatives --install /usr/bin/python python /usr/bin/python3.7 2000 \
+    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 2000 \
+    && pip install --no-binary :all: psycopg2 \
+    && pip install pytz \
+    && update-alternatives --remove-all pip \
+    && apt-get remove -y python3-pip libpq-dev \
+    && apt-get autoremove -y \
+    && apt-get clean -y
+
 
 # By tricking out the apt-get, the package openjdk-8-jre-headless will be installed. The standard postinstall
 # tries to install man pages, for which the folder does not exist. A number of files in the .jinfo do not exist.
