@@ -9,7 +9,6 @@ ENV AIRFLOW_HOME=/home/airflow \
     AIRFLOW__CORE__FERNET_KEY=uQ5Fz122Qu2yQH5PfdMrAjH0WIkgtx1df435T7GTGm4= \
     AIRFLOW__CORE__LOAD_EXAMPLES=False
 
-COPY req-sc-jail-project.txt /root/req-sc-jail-project.txt
 COPY req-airflow-project.txt /root/req-airflow-project.txt
 
 RUN set -eux \
@@ -33,12 +32,6 @@ RUN set -eux \
     && conda config --env --append channels conda-forge \
     && conda config --env --set channel_priority flexible \
     && conda install --file req-${CONDA_PROJECT}.txt \
-    && CONDA_PROJECT=sc-jail-project \
-    && conda create --yes --name ${CONDA_PROJECT} python=3.7.3 \
-    && conda activate ${CONDA_PROJECT} \
-    && conda config --env --append channels conda-forge \
-    && conda config --env --set channel_priority flexible \
-    && conda install --yes --file=req-${CONDA_PROJECT}.txt \
     && gosu airflow /opt/miniconda/bin/conda init -v \
     && conda clean --all
     
