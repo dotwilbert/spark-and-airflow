@@ -38,13 +38,14 @@ RUN set -eux \
 USER 1717:1717
 
 RUN set -eux \
-    && sed -i -e '5,+5d' /home/airflow/.bashrc
+    && sed -e '1,+93d' /home/airflow/.bashrc > /home/airflow/.conda_environment
     
 COPY --chown=1717:1717 airflow.cfg.template /home/airflow/airflow.cfg.template
-COPY docker_entrypoint.sh /home/airflow/docker_entrypoint.sh
+COPY --chown=1717:1717 docker_entrypoint.sh /home/airflow/docker_entrypoint.sh
 
 USER 1717:1717
 
 WORKDIR /home/airflow
 
 ENTRYPOINT [ "/home/airflow/docker_entrypoint.sh"]
+# CMD [ "/bin/bash" ]
