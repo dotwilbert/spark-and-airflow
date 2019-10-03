@@ -61,6 +61,9 @@ services:
             - POSTGRES_PASSWORD=airflow
             - AIRFLOW__CORE__FERNET_KEY=uQ5Fz122Qu2yQH5PfdMrAjH0WIkgtx1df435T7GTGm4=
             - AIRFLOW__CORE__LOAD_EXAMPLES=False
+            - SC_JAIL_DB=jail_population_warehouse
+            - SC_JAIL_USER=ptm
+            - SC_JAIL_PASSWORD=Bonsai-Dried-Reenact-Regulate-Prior-Tribesman-Magnifier
         ports:
             - "8079:8080/tcp"
         depends_on:

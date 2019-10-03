@@ -26,6 +26,10 @@ COPY --chown=1717:1717 spark-sc-jail-project/convert-dpcs-to-text.py /home/airfl
 COPY --chown=1717:1717 spark-sc-jail-project/load-dpcs.py /home/airflow/scripts/sc-jail-project/load-dpcs.py
 COPY --chown=1717:1717 spark-sc-jail-project/dag-sc-jail.py /home/airflow/dags/dag-sc-jail.py
 
+ENV SC_JAIL_DB=jail_population_warehouse \
+    SC_JAIL_USER=ptm \
+    SC_JAIL_PASSWORD=Bonsai-Dried-Reenact-Regulate-Prior-Tribesman-Magnifier
+
 USER 1717:1717
 
 WORKDIR /home/airflow
