@@ -1,4 +1,4 @@
-FROM spark_base:2.0.0
+FROM spark_base:2.0.1
 
 ENV SPARK_NO_DAEMONIZE yes 
 

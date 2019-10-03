@@ -80,6 +80,7 @@ RUN set -eux \
     && apt-get install -y \
             openjdk-8-jre-headless \
             ca-certificates-java \
+            libpostgresql-jdbc-java \
     && mv /usr/bin/update-alternatives.paused /usr/bin/update-alternatives \
     && jinfo='/usr/lib/jvm/.java-1.8.0-openjdk-amd64.jinfo'; export jinfo; sed_cmd='sed -i'; export sed_cmd; \
         for f in $(awk '/^(hl|jre|jdk|plugin)/ {print $3}' ${jinfo}); do \
