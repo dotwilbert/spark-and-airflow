@@ -4,7 +4,7 @@
 sudo chmod 777 /bigdata
 
 cd ${AIRFLOW_HOME}
-. ~/.bashrc
+. ~/.conda_environment
 conda activate airflow-project
 
 # Make sure we can reach the database
